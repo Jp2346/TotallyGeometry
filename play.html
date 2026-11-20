@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TotallyGeometry</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="navbar">
+    <a class="logo" href="./" aria-label="TotallyGeometry home">
+      <svg viewBox="0 0 32 32" aria-hidden="true">
+        <rect x="2" y="2" width="28" height="28" rx="8" fill="#8b9bff"/>
+        <path d="M12 9.5v13l11-6.5z" fill="#0d1020"/>
+      </svg>
+      TotallyGeometry
+    </a>
+  </header>
+
+  <main>
+    <div class="play-head">
+      <h1 class="play-title" id="title">Loading game…</h1>
+      <span class="chip" id="chip" hidden></span>
+    </div>
+
+    <div class="player" id="player" hidden>
+      <div class="stage" id="stage">
+        <iframe id="frame" title="Game" allow="fullscreen; gamepad"></iframe>
+      </div>
+      <div class="controls">
+        <a class="btn" href="./">Back to Games</a>
+        <button class="btn btn-primary" type="button" id="fullscreen" disabled>Fullscreen</button>
+      </div>
+    </div>
+
+    <div class="message" id="error" hidden>
+      <h2 id="error-title">Game not found</h2>
+      <p id="error-text">We couldn't find that game.</p>
+      <a class="btn btn-primary" href="./">Back to Games</a>
+    </div>
+  </main>
+
+  <script>
+    const titleEl = document.getElementById('title');
+    const chip = document.getElementById('chip');
+    const player = document.getElementById('player');
+    const stage = document.getElementById('stage');
+    const frame = document.getElementById('frame');
+    const fsButton = document.getElementById('fullscreen');
+    const errorBox = document.getElementById('error');
+
+    function showError(heading, text) {
+      titleEl.textContent = heading;
+      document.title = heading + ' – TotallyGeometry';
+      document.getElementById('error-title').textContent = heading;
+      document.getElementById('error-text').textContent = text;
+      player.hidden = true;
+      errorBox.hidden = false;
+    }
+
+    /* ----- Load the game ----- */
+
+    const gameId = new URLSearchParams(location.search).get('game');
+
+    if (!gameId) {
+      showError('No game selected', 'Pick a game from the library to start playing.');
+    } else {
+      fetch('games.json')
+        .then(response => {
+          if (!response.ok) throw new Error('HTTP ' + response.status);
+          return response.json();
+        })
+        .then(games => {
+          const game = games.find(g => g.id === gameId);
+          if (!game) {
+            showError('Game not found', 'There is no game with that ID. Pick one from the library.');
+            return;
+          }
+
+          titleEl.textContent = game.title;
+          document.title = game.title + ' – TotallyGeometry';
+          chip.textContent = game.category;
+          chip.dataset.category = game.category;
+          chip.hidden = false;
+
+          // Size the player to the game's native shape so it never letterboxes or sits off-center.
+          const width = Number(game.width) || 800;
+          const height = Number(game.height) || 600;
+          player.style.setProperty('--ar', String(width / height));
+          player.hidden = false;
+
+          frame.title = game.title;
+          frame.addEventListener('load', () => frame.focus());
+          frame.src = game.path;
+          fsButton.disabled = !fullscreenSupported();
+        })
+        .catch(() => {
+          showError(
+            "Couldn't load games",
+            'The browser blocked games.json. Serve this folder from a local server, for example python3 -m http.server, then open http://localhost:8000.'
+          );
+        });
+    }
+
+    /* ----- Fullscreen ----- */
+
+    function fullscreenSupported() {
+      return Boolean(document.fullscreenEnabled || document.webkitFullscreenEnabled);
+    }
+
+    function fullscreenElement() {
+      return document.fullscreenElement || document.webkitFullscreenElement || null;
+    }
+
+    function updateFullscreenLabel() {
+      fsButton.textContent = fullscreenElement() ? 'Exit fullscreen' : 'Fullscreen';
+    }
+
+    fsButton.addEventListener('click', () => {
+      let request;
+      if (fullscreenElement()) {
+        const exit = document.exitFullscreen || document.webkitExitFullscreen;
+        request = exit.call(document);
+      } else {
+        const enter = stage.requestFullscreen || stage.webkitRequestFullscreen;
+        request = enter.call(stage);
+      }
+      if (request && request.catch) request.catch(() => {});
+    });
+
+    document.addEventListener('fullscreenchange', updateFullscreenLabel);
+    document.addEventListener('webkitfullscreenchange', updateFullscreenLabel);
+  </script>
+</body>
+</html>
