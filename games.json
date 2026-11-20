@@ -1,0 +1,30 @@
+[
+  {
+    "id": "worlds-hardest-game",
+    "title": "The World's Hardest Game",
+    "category": "Arcade",
+    "thumbnail": "https://placehold.co/600x450/33271a/ffc857?text=Worlds+Hardest+Game",
+    "path": "games/worlds-hardest-game/index.html"
+  },
+  {
+    "id": "raft-wars",
+    "title": "Raft Wars",
+    "category": "Action",
+    "thumbnail": "https://placehold.co/600x450/3a1d3f/ff7a6b?text=Raft+Wars",
+    "path": "games/raft-wars/index.html"
+  },
+  {
+    "id": "awesome-tanks",
+    "title": "Awesome Tanks",
+    "category": "Action",
+    "thumbnail": "https://placehold.co/600x450/401f2a/ff7a6b?text=Awesome+Tanks",
+    "path": "games/awesome-tanks/index.html"
+  },
+  {
+    "id": "bloons-td-3",
+    "title": "Bloons TD 3",
+    "category": "Puzzle",
+    "thumbnail": "https://placehold.co/600x450/1e2a52/4fd8c4?text=Bloons+TD+3",
+    "path": "games/bloons-td-3/index.html"
+  }
+]
