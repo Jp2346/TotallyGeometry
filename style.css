@@ -7,13 +7,13 @@
   --text: #e9ecf8;
   --muted: #9aa3c4;
   --accent: #2ea3ff;
-
   --action: #ff7a6b;
   --puzzle: #4fd8c4;
   --arcade: #ffc857;
 
   --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
   --font-body: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+
   color-scheme: dark;
 }
 
@@ -142,26 +142,25 @@ main {
   font-size: 0.95rem;
 }
 
-/* BENTO GAME GRID */
+/* BENTO GRID */
 
 .grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  grid-auto-rows: auto;
+  grid-auto-rows: 180px;
   grid-auto-flow: dense;
   gap: 16px;
   align-items: stretch;
 }
 
-/* ALL GAME CARDS ARE SQUARE */
+/* GAME CARDS */
 
 .card {
   display: flex;
   flex-direction: column;
   min-width: 0;
   width: 100%;
-  aspect-ratio: 1 / 1;
-  height: auto;
+  height: 100%;
   overflow: hidden;
 
   background: var(--surface);
@@ -173,10 +172,18 @@ main {
   transition: border-color 0.2s;
 }
 
-/* Disable old Bento size classes */
+/* SQUARE BENTO SIZES */
 
-.card.featured,
-.card.wide,
+.card.featured {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.card.wide {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
 .card.tall {
   grid-column: span 1;
   grid-row: span 1;
@@ -187,8 +194,6 @@ main {
   border-color: var(--accent);
 }
 
-
-
 /* THUMBNAILS */
 
 .card .thumb {
@@ -196,9 +201,7 @@ main {
   flex: 1 1 auto;
   width: 100%;
   min-height: 0;
-  height: auto;
   overflow: hidden;
-  aspect-ratio: auto;
   background: var(--surface-2);
 }
 
@@ -216,7 +219,7 @@ main {
   transform: scale(1.06);
 }
 
-/* GAME CARD INFORMATION */
+/* CARD INFORMATION */
 
 .card .card-body {
   display: flex;
@@ -240,7 +243,6 @@ main {
   letter-spacing: -0.01em;
   overflow: hidden;
   text-overflow: ellipsis;
-  
   white-space: nowrap;
 }
 
@@ -273,7 +275,7 @@ main {
   --tone: var(--arcade);
 }
 
-/* EMPTY AND ERROR STATES */
+/* EMPTY STATES */
 
 .message {
   max-width: 34rem;
@@ -311,7 +313,7 @@ main {
   display: none !important;
 }
 
-/* RESPONSIVE GRID */
+/* TABLET */
 
 @media (max-width: 860px) {
   .navbar {
@@ -327,8 +329,11 @@ main {
 
   .grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-rows: 160px;
   }
 }
+
+/* MOBILE */
 
 @media (max-width: 520px) {
   .navbar {
@@ -341,7 +346,19 @@ main {
 
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 140px;
     gap: 10px;
+  }
+
+  .card.featured,
+  .card.wide {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .card.tall {
+    grid-column: span 1;
+    grid-row: span 1;
   }
 
   .card .card-body {
@@ -355,21 +372,6 @@ main {
 
   .chip {
     font-size: 0.7rem;
-  }
-}
-
-/* REDUCED MOTION */
-
-@media (prefers-reduced-motion: reduce) {
-  .thumb img,
-  .card,
-  .filter {
-    transition: none;
-  }
-
-  .card:hover .thumb img,
-  .card:focus-visible .thumb img {
-    transform: none;
   }
 }
 
@@ -480,8 +482,18 @@ main {
   margin-top: 0.25rem;
 }
 
+/* ACCESSIBILITY */
+
 @media (prefers-reduced-motion: reduce) {
+  .thumb img,
+  .card,
+  .filter,
   .btn {
     transition: none;
+  }
+
+  .card:hover .thumb img,
+  .card:focus-visible .thumb img {
+    transform: none;
   }
 }
