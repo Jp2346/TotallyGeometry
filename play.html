@@ -68,7 +68,7 @@
     if (!gameId) {
       showError('No game selected', 'Pick a game from the library to start playing.');
     } else {
-      fetch('games.json')
+      fetch('./games.json')
         .then(response => {
           if (!response.ok) throw new Error('HTTP ' + response.status);
           return response.json();
