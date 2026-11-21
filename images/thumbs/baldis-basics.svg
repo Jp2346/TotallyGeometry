@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="600" height="450" viewBox="0 0 600 450">
-<defs><linearGradient id="g" x2="1" y2="1"><stop stop-color="#6b8b3b"/><stop offset="1" stop-color="#111827"/></linearGradient></defs>
-<rect width="600" height="450" rx="28" fill="url(#g)"/>
-<circle cx="500" cy="80" r="110" fill="#fff0bd" opacity=".12"/>
-<circle cx="90" cy="390" r="160" fill="#fff0bd" opacity=".08"/>
-<text x="300" y="235" fill="#fff0bd" font-family="Arial,sans-serif" font-size="42" font-weight="700" text-anchor="middle">BALDI&#x27;S BASICS</text>
-<text x="300" y="285" fill="#ffffff" opacity=".75" font-family="Arial,sans-serif" font-size="18" text-anchor="middle">TOTALLY GEOMETRY</text>
-</svg>
