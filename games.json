@@ -61,16 +61,6 @@
     "size": "wide"
   },
   {
-    "id": "race-survival",
-    "title": "Race Survival",
-    "category": "Arcade",
-    "thumbnail": "images/thumbs/race-survival.jpg",
-    "path": "games/race-survival/index.html",
-    "width": 1280,
-    "height": 720,
-    "size": ""
-  },
-  {
     "id": "slither-io",
     "title": "Slither.io",
     "category": "Arcade",
