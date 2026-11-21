@@ -61,8 +61,8 @@
 
     function createCard(game) {
       const link = document.createElement('a');
-      link.className = 'card';
-      link.href = 'play.html?game=' + encodeURIComponent(game.id);
+link.className = 'card ' + (game.size || '');
+     link.href = 'play.html?game=' + encodeURIComponent(game.id);
 
       const thumb = document.createElement('div');
       thumb.className = 'thumb';
