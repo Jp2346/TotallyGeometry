@@ -144,37 +144,57 @@ main {
 .grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    grid-auto-rows: 190px;
+    grid-auto-rows: auto;
     grid-auto-flow: dense;
     gap: 16px;
 }
 
 .card {
     min-width: 0;
-    height: 100%;
+    aspect-ratio: 1 / 1;
+    height: auto;
+    overflow: hidden;
 }
 
-.card.featured {
-    grid-column: span 2;
-    grid-row: span 2;
-}
-
-.card.wide {
-    grid-column: span 2;
-}
-
+.card.featured,
+.card.wide,
 .card.tall {
-    grid-row: span 2;
+    grid-column: span 1;
+    grid-row: span 1;
 }
 
 .card .thumb {
+    width: 100%;
     height: calc(100% - 60px);
     aspect-ratio: auto;
+    object-fit: cover;
+}
+
+.card .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .card .card-body {
     height: 60px;
     padding: 0.75rem 1rem;
+    overflow: hidden;
+}
+
+@media (max-width: 850px) {
+    .grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+    }
+}
+
+@media (max-width: 520px) {
+    .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
 }
 
 /* ---------- Game card ---------- */
@@ -426,6 +446,7 @@ main {
   transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
 
+
 .btn:hover {
   border-color: var(--muted);
 }
@@ -455,24 +476,4 @@ main {
   .btn {
     transition: none;
   }
-}
-
-@media (max-width: 850px) {
-    .grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        grid-auto-rows: 160px;
-    }
-}
-
-@media (max-width: 520px) {
-    .grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        grid-auto-rows: 130px;
-        gap: 10px;
-    }
-
-    .card.featured {
-        grid-column: span 2;
-        grid-row: span 2;
-    }
 }
