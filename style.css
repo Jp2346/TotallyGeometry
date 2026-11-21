@@ -477,3 +477,43 @@ main {
     transition: none;
   }
 }
+
+/* FORCE ALL GAME CARDS TO BE SQUARE */
+.grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    grid-auto-rows: auto !important;
+}
+
+.grid .card {
+    width: 100% !important;
+    aspect-ratio: 1 / 1 !important;
+    height: auto !important;
+    grid-column: span 1 !important;
+    grid-row: span 1 !important;
+    min-height: 0 !important;
+}
+
+.grid .card .thumb {
+    width: 100% !important;
+    height: calc(100% - 60px) !important;
+    aspect-ratio: unset !important;
+}
+
+.grid .card .thumb img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+}
+
+@media (max-width: 850px) {
+    .grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+}
+
+@media (max-width: 520px) {
+    .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
