@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TotallyGeometry – Free browser games</title>
+  <meta name="description" content="Play free browser games like Raft Wars, Bloons TD 3 and The World's Hardest Game on TotallyGeometry.">
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <meta name="theme-color" content="#0d1020">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="navbar">
+    <a class="logo" href="./"><img src="images/logo.png" alt="TotallyGeometry home" width="240" height="72"></a>
+
+    <div class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>
+      </svg>
+      <input id="search" type="search" placeholder="Search games" aria-label="Search games" autocomplete="off">
+    </div>
+
+    <nav class="filters" aria-label="Game categories">
+      <button class="filter" type="button" data-category="All" aria-pressed="true">All</button>
+      <button class="filter" type="button" data-category="Action" aria-pressed="false">Action</button>
+      <button class="filter" type="button" data-category="Puzzle" aria-pressed="false">Puzzle</button>
+      <button class="filter" type="button" data-category="Arcade" aria-pressed="false">Arcade</button>
+    </nav>
+  </header>
+
+  <main>
+    <p class="count" id="count" aria-live="polite"></p>
+    <section class="grid" id="grid" aria-label="Games"></section>
+
+    <div class="message" id="empty" hidden>
+      <h2>No games found</h2>
+      <p>Try a different search or category.</p>
+      <button class="filter" type="button" id="reset">Clear search and filters</button>
+    </div>
+
+    <div class="message" id="error" hidden>
+      <h2>Couldn't load games</h2>
+      <p>The browser blocked <code>games.json</code>. Serve this folder from a local server, for example <code>python3 -m http.server</code>, then open <code>http://localhost:8000</code>.</p>
+    </div>
+  </main>
+
+  <script>
+    const grid = document.getElementById('grid');
+    const searchInput = document.getElementById('search');
+    const count = document.getElementById('count');
+    const empty = document.getElementById('empty');
+    const errorBox = document.getElementById('error');
+    const filterButtons = document.querySelectorAll('.filter[data-category]');
+
+    let games = [];
+    let category = 'All';
+    let query = '';
+
+    function createCard(game) {
+      const link = document.createElement('a');
+link.className = 'card ' + (game.size || '');
+     link.href = 'play.html?game=' + encodeURIComponent(game.id);
+
+      const thumb = document.createElement('div');
+      thumb.className = 'thumb';
+      const img = document.createElement('img');
+      img.src = game.thumbnail;
+      img.alt = '';
+      img.loading = 'lazy';
+      img.width = 600;
+      img.height = 450;
+      thumb.append(img);
+
+      const body = document.createElement('div');
+      body.className = 'card-body';
+      const title = document.createElement('h2');
+      title.className = 'card-title';
+      title.textContent = game.title;
+      const chip = document.createElement('span');
+      chip.className = 'chip';
+      chip.dataset.category = game.category;
+      chip.textContent = game.category;
+      body.append(title, chip);
+
+      link.append(thumb, body);
+      return link;
+    }
+
+    function render() {
+      const matches = games.filter(game =>
+        (category === 'All' || game.category === category) &&
+        (game.title + ' ' + game.category).toLowerCase().includes(query)
+      );
+
+      grid.replaceChildren(...matches.map(createCard));
+      empty.hidden = matches.length > 0;
+      count.textContent = matches.length + (matches.length === 1 ? ' game' : ' games');
+    }
+
+    function setCategory(next) {
+      category = next;
+      filterButtons.forEach(btn =>
+        btn.setAttribute('aria-pressed', String(btn.dataset.category === category))
+      );
+      render();
+    }
+
+    searchInput.addEventListener('input', () => {
+      query = searchInput.value.trim().toLowerCase();
+      render();
+    });
+
+    filterButtons.forEach(btn =>
+      btn.addEventListener('click', () => setCategory(btn.dataset.category))
+    );
+
+    document.getElementById('reset').addEventListener('click', () => {
+      searchInput.value = '';
+      query = '';
+      setCategory('All');
+      searchInput.focus();
+    });
+
+    fetch('games.json')
+      .then(response => {
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        return response.json();
+      })
+      .then(data => {
+        games = data;
+        render();
+      })
+      .catch(() => {
+        count.textContent = '';
+        errorBox.hidden = false;
+      });
+  </script>
+  <!-- BEGIN AADS AD UNIT 2462904 -->
+
+<div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
+          <iframe data-aa='2462904' src='//acceptable.a-ads.com/2462904/?size=Adaptive&background_color=0e1b46'
+                            style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
+        </div>
+
+<!-- END AADS AD UNIT 2462904 -->
+</body>
+</html>

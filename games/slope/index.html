@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Slope</title>
+  <style>
+    html, body { height: 100%; margin: 0; overflow: hidden; background: #000; }
+    .webgl-content, #gameContainer { width: 100%; height: 100%; }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ReneTirado14/lbannana@3ad5bf7eab1a47660acd8fbe0c24d1119c7a0b6d/html/slope/TemplateData/style.css">
+  <script src="../../shared/unity-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/ReneTirado14/lbannana@3ad5bf7eab1a47660acd8fbe0c24d1119c7a0b6d/html/slope/TemplateData/UnityProgress.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/ReneTirado14/lbannana@3ad5bf7eab1a47660acd8fbe0c24d1119c7a0b6d/html/slope/TemplateData/unityloader41.js"></script>
+</head>
+<body>
+  <div class="webgl-content">
+    <div id="gameContainer"></div>
+  </div>
+
+  <script>
+    var gameInstance = UnityLoader.instantiate("gameContainer", "https://cdn.jsdelivr.net/gh/ReneTirado14/lbannana@3ad5bf7eab1a47660acd8fbe0c24d1119c7a0b6d/html/slope/Build/slope.json", {
+      onProgress: UnityProgress,
+      Module: {
+        onRuntimeInitialized: function () {
+          UnityProgress(gameInstance, "complete");
+        }
+      }
+    });
+  </script>
+</body>
+</html>
