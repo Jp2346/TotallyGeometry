@@ -120,3 +120,22 @@
     "size": ""
   }
 ]
+ {
+    "id": "",
+    "title": "",
+    "category": "",
+    "thumbnail": "<!-- BEGIN AADS AD UNIT 2463091 -->
+
+<div id="frame" style="width: 200px;margin: auto;z-index: 99998;height: auto">
+          <iframe data-aa='2463091' src='//ad.a-ads.com/2463091/?size=200x200'
+                            style='border:0; padding:0; width:200px; height:200px; overflow:hidden;display: block;margin: auto'></iframe>
+        </div>
+
+<!-- END AADS AD UNIT 2463091 -->",
+    "path": "games/duck-life-5/index.html",
+    "width": 200,
+    "height": 200,
+    "size": ""
+  }
+]
+
